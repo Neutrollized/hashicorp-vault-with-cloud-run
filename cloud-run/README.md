@@ -8,7 +8,8 @@ docker push gcr.io/${PROJECT_ID}/vault-server:1.7.2
 ```
 
 #### 1 - Initial Deploy
-- deploy privately first so you can authenticate with your GCP account and setup the Vault instance:
+Deploy privately first so you can authenticate with your GCP account and setup the Vault instance:
+
 ```
 gcloud beta run deploy vault-server \
   --no-allow-unauthenticated \
@@ -29,7 +30,8 @@ gcloud beta run deploy vault-server \
 
 
 ### 2 - Connect To & Initialize Vault
-- you need to give the current logged in GCP user access so that you can initialize the Vault server
+You need to give the current logged in GCP user access so that you can initialize the Vault server
+
 ```
 gcloud run services add-iam-policy-binding vault-server \
   --member="user:${CURRENT_USER_EMAIL}" \
@@ -61,11 +63,16 @@ curl -s -X PUT \
   --data @init.json
 ```
 
-### 3 - Finalize & Make Public
-- one down side of Cloud Run is that it's meant more for (public) applications and not something that should be more internal/restricted
-- you can require `--no-allow-unauthenticated` like you did in the first step, but depending on what you actually want to use this Vault for, it might be a lot more hassle than it is worth
+### 3a - Mapping Custom Domains
+If you want to map your service to a custom domain (I'm going to use *myvault.example.com* as my example), there are some settings you may want to change.  If you're not, then you can go straight to step 3b below.
+
+Also, beware that there are currently some [limitations](https://cloud.google.com/run/docs/mapping-custom-domains#limitations) to Cloud Run domain mappings.  This is only availabile in certain regions.  For example, I can't deploy it in Montreal (`northamerica-northeast1`), so I'll have to choose a different region like `us-central1` or `us-east1`, etc.
+
+### 3b - Finalize & Make Public
+One down side of Cloud Run is that it's meant more for (public) applications and not something that should be more internal/restricted.  You can require authentication to access the service with the `--no-allow-unauthenticated` flag like you did in the first step, but depending on what you actually want to use this Vault for, it might be a lot more hassle than it is worth.
+
 ```
-gcloud beta run deploy vault-server \
+gcloud beta run deploy myvault \
   --allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
@@ -81,3 +88,14 @@ gcloud beta run deploy vault-server \
   --timeout 300 \
   --region ${REGION}
 ```
+
+### 3c - Creating Domain Mapping
+I'm not 100% sure, but I don't think the service name needs to match your URL subdomain name, but I do it so that it's consistent:
+```
+gcloud beta run domain-mappings create \
+  --service myvault \
+  --domain myvault.example.com
+  --region ${REGION}
+```
+
+Afterwards, you will be prompted to create some DNS entries and once GCP verifies that, it will provision your SSL certs and your custom domain mapping will be up and running.  This part took ~15min or so for me.
