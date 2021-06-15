@@ -16,14 +16,14 @@ gcloud beta run deploy vault-server \
   --concurrency 20 \
   --cpu 1 \
   --image gcr.io/${PROJECT_ID}/vault-server:1.7.2 \
-  --memory '1G' \
+  --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
   --platform managed \
   --port 8200 \
   --service-account ${SERVICE_ACCOUNT_EMAIL} \
   --set-env-vars="GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${GCS_BUCKET_NAME}" \
-  --set-secrets="/etc/vault/config.hcl=vault-server-config:1" \
+  --set-secrets="/etc/vault/config.hcl=vault-server-config:latest" \
   --timeout 300 \
   --region ${REGION}
 ```
@@ -77,14 +77,14 @@ gcloud beta run deploy myvault \
   --concurrency 20 \
   --cpu 1 \
   --image gcr.io/${PROJECT_ID}/vault-server:1.7.2 \
-  --memory '1G' \
+  --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
   --platform managed \
   --port 8200 \
   --service-account ${SERVICE_ACCOUNT_EMAIL} \
   --set-env-vars="GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${GCS_BUCKET_NAME}" \
-  --set-secrets="/etc/vault/config.hcl=vault-server-config:1" \
+  --set-secrets="/etc/vault/config.hcl=vault-server-config:latest" \
   --timeout 300 \
   --region ${REGION}
 ```
