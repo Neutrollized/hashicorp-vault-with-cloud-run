@@ -30,10 +30,13 @@ zone                  = "northamerica-northeast1-c"
 ```
 
 # **IMPORTANT!** PLEASE READ
-I had set up my Secret Manager using TF, including the secret, which ingest the [*cloud-run/vault-server.hcl*](./cloud-run/vault-server.hcl), however you will notice that I append the random hex unique identifier at the end of the Cloud KMS keyring, which needs to be referenced, which means I had to update the *cloud-run/vault-server.hcl* and re-run `terraform apply`, so now when I reference the secret version in my Cloud Run deploy command, I had to make sure I refer to version 2 of the secret.  It's a little awkward and I didn't realize it until afterwards, so since I already made my bed, now I have to lie in it.
+I had set up my Secret Manager using TF, including the secret, which ingest the [*cloud-run/vault-server.hcl*](./cloud-run/vault-server.hcl), however you will notice that I append the random hex unique identifier at the end of the Cloud KMS keyring, which needs to be referenced, which means I had to update the *cloud-run/vault-server.hcl* and re-run `terraform apply`, so now when I reference the secret version in my Cloud Run deploy command, I had to make sure I refer to version 2 (or *latest*) of the secret.  It's a little awkward and I didn't realize it until afterwards, so since I already made my bed, now I have to lie in it.
 
-There are ways to avoid this:
+There are a couple of ways to avoid this:
 1. don't add a unique hex as a suffix to the Cloud KMS name and this way you'll know what the keyring will be called
+
+or...
+
 2. comment out the Secret Manager section and deploy the secret via `gcloud` command:
 ```
 gcloud secrets create vault-server-config \
