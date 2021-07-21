@@ -19,7 +19,7 @@ steps:
   - '20'
   - '--cpu'
   - '1'
-  - '--memory`
+  - '--memory'
   - '512M'
   - '--image'
   - 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA'
