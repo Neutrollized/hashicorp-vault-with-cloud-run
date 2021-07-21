@@ -1,0 +1,45 @@
+---
+steps:
+# Build container image
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA', '-f', 'cloud-run/Dockerfile']
+# Push container image to Container Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA']
+# Deploy container image to Cloud Run
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: gcloud
+  args:
+  - 'beta'
+  - 'run'
+  - 'deploy'
+  - '${_SERVICE_NAME}'
+  - '--allow-unauthenticated'
+  - '--concurrency'
+  - '20'
+  - '--cpu'
+  - '1'
+  - '--memory`
+  - '512M'
+  - '--image'
+  - 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA'
+  - '--region'
+  - '${_REGION}'
+  - '--min-instances'
+  - '1' 
+  - '--max-instances'
+  - '1' 
+  - '--platform'
+  - 'managed'
+  - '--port'
+  - '8200'
+  - '--service-account'
+  - '${_SERVICE_ACCOUNT_EMAIL}'
+  - '--set-env-vars'
+  - 'GOOGLE_PROJECT=$PROJECT_ID,GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME}'
+  - '--set-secrets'
+  - '/etc/vault/config.hcl=vault-server-config:latest'
+  - '--timeout'
+  - '300'
+images:
+- 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA'
