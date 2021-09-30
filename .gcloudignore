@@ -1,0 +1,9 @@
+.gcloudignore
+.git
+.gitignore
+
+*.md
+*.tf
+cloud-run/*.md
+cloud-run/init.json
+cloud-run/*.hcl

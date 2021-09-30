@@ -34,4 +34,4 @@ backend.tf
 terraform.tfvars
 
 # custom
-cloud-run/thirdpig-vault-server.hcl
+cloud-run/*-vault-server.hcl
