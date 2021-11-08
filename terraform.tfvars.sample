@@ -1,0 +1,7 @@
+project_id            = "my-project"
+credentials_file_path = "/path/to/my/credentials.json"
+region                = "northamerica-northeast1"
+zone                  = "northamerica-northeast1-c"
+
+# vault
+vault_server_config = "./cloud-run/my-custom-vault-server.hcl"

@@ -99,3 +99,9 @@ gcloud beta run domain-mappings create \
 ```
 
 Afterwards, you will be prompted to create some DNS entries and once GCP verifies that, it will provision your SSL certs and your custom domain mapping will be up and running.  This part took ~15min or so for me.
+
+## RECOMMENDED
+Enable [File Audit Device](https://www.vaultproject.io/docs/audit/file#file-audit-device) and write file to `stdout` instead.  This way, logs will go to GCP's [Cloud Logging](https://cloud.google.com/logging):
+```
+vault audit enable file file_path=stdout
+```
