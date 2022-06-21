@@ -1,6 +1,6 @@
 FROM debian:buster as builder
 
-ENV VAULT_VERSION=1.9.4
+ENV VAULT_VERSION=1.10.4
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y wget unzip

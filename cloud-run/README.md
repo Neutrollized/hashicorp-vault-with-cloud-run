@@ -3,8 +3,8 @@ Based on my Vault setup on my home Raspberry Pi, I know I don't require that muc
 
 #### 0 - Building the Image
 ```
-docker build -t gcr.io/${PROJECT_ID}/vault-server:1.7.3 .
-docker push gcr.io/${PROJECT_ID}/vault-server:1.7.3
+docker build -t gcr.io/${PROJECT_ID}/vault-server:1.10.4 .
+docker push gcr.io/${PROJECT_ID}/vault-server:1.10.4
 ```
 
 #### 1 - Initial Deploy
@@ -15,7 +15,7 @@ gcloud beta run deploy vault-server \
   --no-allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
-  --image gcr.io/${PROJECT_ID}/vault-server:1.7.3 \
+  --image gcr.io/${PROJECT_ID}/vault-server:1.10.4 \
   --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
@@ -76,7 +76,7 @@ gcloud beta run deploy myvault \
   --allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
-  --image gcr.io/${PROJECT_ID}/vault-server:1.7.3 \
+  --image gcr.io/${PROJECT_ID}/vault-server:1.10.4 \
   --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
