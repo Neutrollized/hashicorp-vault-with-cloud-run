@@ -3,11 +3,13 @@ Based on my Vault setup on my home Raspberry Pi, I know I don't require that muc
 
 #### 0 - Building the Image
 ```
-docker build -t gcr.io/${PROJECT_ID}/vault-server:1.10.4 .
-docker push gcr.io/${PROJECT_ID}/vault-server:1.10.4
+docker build -t gcr.io/${PROJECT_ID}/vault-server:1.11.2 .
+docker push gcr.io/${PROJECT_ID}/vault-server:1.11.2
 ```
 
-#### 1 - Initial Deploy
+**NOTE**: steps 1 and 2 below is a more secure way to initialize your Vault server but entirely optional.  You can go straight to step 3 for an easier initialize method
+
+#### 1 - Initial Deploy (optional)
 Deploy privately first so you can authenticate with your GCP account and setup the Vault instance:
 
 ```
@@ -15,7 +17,7 @@ gcloud beta run deploy vault-server \
   --no-allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
-  --image gcr.io/${PROJECT_ID}/vault-server:1.10.4 \
+  --image gcr.io/${PROJECT_ID}/vault-server:1.11.2 \
   --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
@@ -29,7 +31,7 @@ gcloud beta run deploy vault-server \
 ```
 
 
-### 2 - Connect To & Initialize Vault
+### 2 - Connect To & Initialize Vault (optional)
 You need to give the current logged in GCP user access so that you can initialize the Vault server
 
 ```
@@ -63,7 +65,7 @@ curl -s -X PUT \
   --data @init.json
 ```
 
-### 3a - Mapping Custom Domains
+### 3a - Mapping Custom Domains (optional)
 If you want to map your service to a custom domain (I'm going to use *myvault.example.com* as my example), there are some settings you may want to change.  If you're not, then you can go straight to step 3b below.
 
 Also, beware that there are currently some [limitations](https://cloud.google.com/run/docs/mapping-custom-domains#limitations) to Cloud Run domain mappings.  This is only availabile in certain regions.  For example, I can't deploy it in Montreal (`northamerica-northeast1`), so I'll have to choose a different region like `us-central1` or `us-east1`, etc.
@@ -76,7 +78,7 @@ gcloud beta run deploy myvault \
   --allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
-  --image gcr.io/${PROJECT_ID}/vault-server:1.10.4 \
+  --image gcr.io/${PROJECT_ID}/vault-server:1.11.2 \
   --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
@@ -89,7 +91,18 @@ gcloud beta run deploy myvault \
   --region ${REGION}
 ```
 
-### 3c - Creating Domain Mapping
+#### Initialize Vault (if you didn't do steps 1 & 2)
+```
+VAULT_SERVICE_URL=$(gcloud run services describe vault-server \
+  --platform managed \
+  --region ${REGION} \
+  --format 'value(status.url)')
+
+curl -s -X PUT ${VAULT_SERVICE_URL}/v1/sys/init --data @init.json
+```
+
+
+### 3c - Creating Domain Mapping (optional)
 I'm not 100% sure, but I don't think the service name needs to match your URL subdomain name, but I do it so that it's consistent:
 ```
 gcloud beta run domain-mappings create \
