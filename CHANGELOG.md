@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2022-08-27
+### Added
+- added **Cloud Run Admin** and **Service Account User** roles to Cloud Build service account`
+- [Google Cloud Build Trigger](https://cloud.google.com/build/docs/triggers) to use the `cloudbuild.yaml` that was introduced in *v0.1.1*
+### Changed
+- updated **terraform** provider from `~> 0.15.0` to `~> 1.0`
+- updated **google** and **google-beta** providers from `~> 3.0` to `~> 4.0`
+- uses env var `VAULT_GCPCKMS_SEAL_KEY_RING` to get key ring name rather than via `cloud-run/vault-server.hcl`
+
 ## [0.1.6] - 2022-08-20
 ### Changed
 - updated Vault initialization README

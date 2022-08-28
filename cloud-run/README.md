@@ -1,15 +1,19 @@
 # README
 Based on my Vault setup on my home Raspberry Pi, I know I don't require that much resources, so I've sized the Cloud Run deployment pretty small and it shouldn't have much problems fitting within Google Cloud's [always free](https://cloud.google.com/free/docs/gcp-free-tier/#cloud-run) tier, so you shouldn't have to pay much for this setup (if at all).  Feel free to bump up the resources accordingly.
 
+**NOTE** - the steps listed below are for manual deployment if you do not want to use Cloud Build
+
+
 #### 0 - Building the Image
 ```
 docker build -t gcr.io/${PROJECT_ID}/vault-server:1.11.2 .
 docker push gcr.io/${PROJECT_ID}/vault-server:1.11.2
 ```
 
-**NOTE**: steps 1 and 2 below is a more secure way to initialize your Vault server but entirely optional.  You can go straight to step 3 for an easier initialize method
+**NOTE**: steps 1-3 below is a more secure way to initialize your Vault server but entirely optional and only applies if you're not using the  h You can go straight to step 3 for an easier initialize method
 
-#### 1 - Initial Deploy (optional)
+
+#### 1 - Initial Deploy
 Deploy privately first so you can authenticate with your GCP account and setup the Vault instance:
 
 ```
@@ -30,8 +34,7 @@ gcloud beta run deploy vault-server \
   --region ${REGION}
 ```
 
-
-### 2 - Connect To & Initialize Vault (optional)
+### 2 - Connect To & Initialize Vault
 You need to give the current logged in GCP user access so that you can initialize the Vault server
 
 ```
@@ -65,12 +68,8 @@ curl -s -X PUT \
   --data @init.json
 ```
 
-### 3a - Mapping Custom Domains (optional)
-If you want to map your service to a custom domain (I'm going to use *myvault.example.com* as my example), there are some settings you may want to change.  If you're not, then you can go straight to step 3b below.
 
-Also, beware that there are currently some [limitations](https://cloud.google.com/run/docs/mapping-custom-domains#limitations) to Cloud Run domain mappings.  This is only availabile in certain regions.  For example, I can't deploy it in Montreal (`northamerica-northeast1`), so I'll have to choose a different region like `us-central1` or `us-east1`, etc.
-
-### 3b - Finalize & Make Public
+### 3 - Finalize & Make Public
 One down side of Cloud Run is that it's meant more for (public) applications and not something that should be more internal/restricted.  You can require authentication to access the service with the `--no-allow-unauthenticated` flag like you did in the first step, but depending on what you actually want to use this Vault for, it might be a lot more hassle than it is worth.
 
 ```
@@ -91,18 +90,12 @@ gcloud beta run deploy myvault \
   --region ${REGION}
 ```
 
-#### Initialize Vault (if you didn't do steps 1 & 2)
-```
-VAULT_SERVICE_URL=$(gcloud run services describe vault-server \
-  --platform managed \
-  --region ${REGION} \
-  --format 'value(status.url)')
 
-curl -s -X PUT ${VAULT_SERVICE_URL}/v1/sys/init --data @init.json
-```
+### 4 - Mapping Custom Domains (optional)
+If you want to map your service to a custom domain (I'm going to use *myvault.example.com* as my example), there are some settings you may want to change.  If you're not, then you can go straight to step 3b below.
 
+Also, beware that there are currently some [limitations](https://cloud.google.com/run/docs/mapping-custom-domains#limitations) to Cloud Run domain mappings.  This is only availabile in certain regions.  For example, I can't deploy it in Montreal (`northamerica-northeast1`), so I'll have to choose a different region like `us-central1` or `us-east1`, etc.
 
-### 3c - Creating Domain Mapping (optional)
 I'm not 100% sure, but I don't think the service name needs to match your URL subdomain name, but I do it so that it's consistent:
 ```
 gcloud beta run domain-mappings create \
@@ -112,6 +105,7 @@ gcloud beta run domain-mappings create \
 ```
 
 Afterwards, you will be prompted to create some DNS entries and once GCP verifies that, it will provision your SSL certs and your custom domain mapping will be up and running.  This part took ~15min or so for me.
+
 
 ## RECOMMENDED
 Enable [File Audit Device](https://www.vaultproject.io/docs/audit/file#file-audit-device) and write file to `stdout` instead.  This way, logs will go to GCP's [Cloud Logging](https://cloud.google.com/logging):

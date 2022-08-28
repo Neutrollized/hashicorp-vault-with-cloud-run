@@ -9,7 +9,6 @@ listener "tcp" {
 }
 
 seal "gcpckms" {
-  key_ring   = "vault-server"
   crypto_key = "auto_unseal"
   region     = "global"
 }

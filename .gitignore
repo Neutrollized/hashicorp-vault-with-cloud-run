@@ -28,10 +28,8 @@ override.tf.json
 
 # Include tfplan files to ignore the plan output of command: terraform plan -out=tfplan
 # example: *tfplan*
+*.plan
 
 # Ignore backend.tf and terraform.tfvars for security reasons
 backend.tf
 terraform.tfvars
-
-# custom
-cloud-run/*-vault-server.hcl

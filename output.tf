@@ -1,5 +1,5 @@
-output "project_id" {
-  value = var.project_id
+output "bucket_name" {
+  value = google_storage_bucket.vault_backend.name
 }
 
 output "cloud_kms_keyring" {
@@ -10,6 +10,3 @@ output "service_account_email" {
   value = google_service_account.vault_sa.email
 }
 
-output "bucket_name" {
-  value = google_storage_bucket.vault_backend.name
-}
