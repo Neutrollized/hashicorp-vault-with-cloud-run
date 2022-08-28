@@ -78,6 +78,6 @@ vault audit enable file file_path=stdout
 
 
 ## Cloud Build Troubleshooting
-- ensure Cloud Build Service Account `[PROJECT_NUMBER]@cloudbuild.gserviceaccount.com` needs to have the following additional roles:
+Ensure Cloud Build Service Account `[PROJECT_NUMBER]@cloudbuild.gserviceaccount.com` needs to have the following additional roles:
 - Cloud Run Admin
 - Service Account User
