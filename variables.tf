@@ -1,7 +1,6 @@
 #-----------------------
 # provider variables
 #-----------------------
-variable "project_number" {}
 
 variable "project_id" {}
 
@@ -60,13 +59,13 @@ variable "github_repo_owner" {
 }
 
 variable "github_repo_name" {
-  description = "GitHub repo name.  Not the full URI"
+  description = "GitHub repo name.  Not the full URI."
 }
 
 variable "cloudrun_service_name" {}
 
 variable "cloudrun_region" {
-  description = "Region where Cloud Run is deployed.  This may be different from the region due to the some feastures (i.e. custom domains) that are still in beta and not support everywehre yet."
+  description = "Region where Cloud Run is deployed.  This may be different from the region due to the some feastures (i.e. custom domains) that are still in beta and not support everywhere yet."
   default     = "us-east4"
 }
 

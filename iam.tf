@@ -33,11 +33,11 @@ resource "google_kms_crypto_key_iam_binding" "auto_unseal_iam_binding" {
 resource "google_project_iam_member" "iam_run_admin" {
   project = var.project_id
   role    = "roles/run.admin"
-  member  = "serviceAccount:${var.project_number}@cloudbuild.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }
 
 resource "google_project_iam_member" "iam_sa_user" {
   project = var.project_id
   role    = "roles/iam.serviceAccountUser"
-  member  = "serviceAccount:${var.project_number}@cloudbuild.gserviceaccount.com"
+  member  = "serviceAccount:${data.google_project.project.number}@cloudbuild.gserviceaccount.com"
 }

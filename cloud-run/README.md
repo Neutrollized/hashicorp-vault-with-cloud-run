@@ -28,7 +28,7 @@ gcloud beta run deploy vault-server \
   --platform managed \
   --port 8200 \
   --service-account ${SERVICE_ACCOUNT_EMAIL} \
-  --set-env-vars="GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${GCS_BUCKET_NAME}" \
+  --set-env-vars="GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${GCS_BUCKET_NAME},VAULT_GCPCKMS_SEAL_KEY_RING=${KMS_KEY_RING}" \
   --set-secrets="/etc/vault/config.hcl=vault-server-config:latest" \
   --timeout 300 \
   --region ${REGION}
@@ -84,7 +84,7 @@ gcloud beta run deploy myvault \
   --platform managed \
   --port 8200 \
   --service-account ${SERVICE_ACCOUNT_EMAIL} \
-  --set-env-vars="GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${GCS_BUCKET_NAME}" \
+  --set-env-vars="GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${GCS_BUCKET_NAME},VAULT_GCPCKMS_SEAL_KEY_RING=${KMS_KEY_RING}" \
   --set-secrets="/etc/vault/config.hcl=vault-server-config:latest" \
   --timeout 300 \
   --region ${REGION}

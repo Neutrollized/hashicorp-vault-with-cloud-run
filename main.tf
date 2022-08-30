@@ -1,3 +1,7 @@
+data "google_project" "project" {
+  project_id = var.project_id
+}
+
 resource "random_id" "name_suffix" {
   byte_length = 4
 }

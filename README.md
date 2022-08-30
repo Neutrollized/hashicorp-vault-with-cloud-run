@@ -40,7 +40,7 @@ terraform plan -out=myvault.plan
 terraform apply myvault.plan
 ```
 
-Once the deploy is done, you can commit and push the changes which should trigger the Cloud Build trigger that was just created, build your image, and deploy the Cloud Run Vault app.
+Once the deploy is done, you can commit and push the changes which should trigger the Cloud Build trigger that was just created, build your image, and deploy the Cloud Run Vault app (from my experience, this took < 2min).
 
 
 #### 3 - Initialize Vault
