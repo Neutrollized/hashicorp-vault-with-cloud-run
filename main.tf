@@ -77,6 +77,7 @@ resource "google_cloudbuild_trigger" "docker_build_trigger" {
     _REGION                = var.cloudrun_region
     _SERVICE_ACCOUNT_EMAIL = google_service_account.vault_sa.email
     _SERVICE_NAME          = var.cloudrun_service_name
+    _INGRESS               = var.cloudrun_ingress
   }
 
   approval_config {

@@ -1,12 +1,15 @@
 project_id            = "my-project"
 credentials_file_path = "/path/to/my/credentials.json"
-region                = "northamerica-northeast1"
-zone                  = "northamerica-northeast1-c"
+region                = "us-west2"
 
 # cloud build
-github_repo_owner     = "Neutrollized"
-github_repo_name      = "hashicorp-vault-with-cloud-run"
-cloudrun_service_name = "myvault"
+github_repo_owner         = "Neutrollized"
+github_repo_name          = "hashicorp-vault-with-cloud-run"
+cloudrun_service_name     = "myvault"
+trigger_approval_required = "false"
 
 # vault
+cloudrun_region     = "us-west2"
+cloudrun_ingress    = "internal"
+storage_class       = "STANDARD"
 vault_server_config = "./cloud-run/vault-server.hcl"

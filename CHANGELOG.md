@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.2.2] - 2022-09-29
+### Changed
+- replaced `--allow-unauthenticated` in [cloudbuild.yaml](./cloudbuild.yaml) with `--ingress` which is specified by new variable, `cloudrun_ingress` (default: `all`)
+- updated Vault version from `1.11.2` to `1.11.3`
+### Removed
+- `zone` variable and any references to it (services used only require `region`)
+
 ## [0.2.1] - 2022-08-30
 ### Changed
 - using `data.google_project` to obtain project number instead of it being a user provided variable/value

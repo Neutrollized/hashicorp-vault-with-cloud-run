@@ -10,10 +10,6 @@ variable "region" {
   default = "us-central1"
 }
 
-variable "zone" {
-  default = "us-central1-c"
-}
-
 
 #-------------------------
 # GCS
@@ -63,6 +59,11 @@ variable "github_repo_name" {
 }
 
 variable "cloudrun_service_name" {}
+
+variable "cloudrun_ingress" {
+  description = "Set ingress traffic sourcess allowed to call the service.  Options are: 'all', 'internal', 'internal-and-cloud-load-balancing'"
+  default     = "all"
+}
 
 variable "cloudrun_region" {
   description = "Region where Cloud Run is deployed.  This may be different from the region due to the some feastures (i.e. custom domains) that are still in beta and not support everywhere yet."
