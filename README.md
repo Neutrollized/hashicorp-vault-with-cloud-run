@@ -8,7 +8,7 @@
 
 [Cloud Build](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudbuild_trigger)
 
-Based on Kelsey Hightower's [Server Vault with Cloud Run](https://github.com/kelseyhightower/serverless-vault-with-cloud-run) repo, this TF blueprint will set up your GCS, Secrets Manager, Cloud KMS (for auto-unseal) and a Cloud Build trigger that will build and deploy Vault onto Cloud Run.  
+Based on Kelsey Hightower's [Serverless Vault with Cloud Run](https://github.com/kelseyhightower/serverless-vault-with-cloud-run) repo, this TF blueprint will set up your GCS, Secrets Manager, Cloud KMS (for auto-unseal) and a Cloud Build trigger that will build and deploy Vault onto Cloud Run.  
 
 **DISCLAIMER**: This setup is more for a dev/test setup rather than prod as it will be publicly accessible as Cloud Run is mean to run container images that runs an HTTP server and unfortunately you can't apply any firewall rules to it unless you set up an external HTTP(S) balncer with serverless NEGs backends, etc.  If you are trying to setup a production Vault, this is probably not the best way to go about it.  Also, if you're going to use Vault for prod, please build something a bit more "proper" and following the [production hardening](https://learn.hashicorp.com/tutorials/vault/production-hardening) guide.
 
