@@ -1,6 +1,6 @@
 FROM debian:buster as builder
 
-ENV VAULT_VERSION=1.11.3
+ENV VAULT_VERSION=1.11.4
 
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y wget unzip

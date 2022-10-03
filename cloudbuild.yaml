@@ -15,6 +15,7 @@ steps:
   - 'run'
   - 'deploy'
   - '${_SERVICE_NAME}'
+  - '--allow-unauthenticated'
   - '--ingress'
   - '${_INGRESS}'
   - '--concurrency'
