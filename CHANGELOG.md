@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2022-11-07
+### Added
+- added [hadolint](https://github.com/hadolint/hadolint) to lint the Dockerfile prior to the build step
+- updated Vault version from `1.11.4` to `1.12.1`
+### Fixed
+- added `roles/cloudkms.viewer` to provide the `cloudkms.cryptoKeys.get` permission. Cloud Run deploys of Vault v1.12.0+ without this permission will fail
+
 ## [0.2.3] - 2022-10-03
 ### Changed
 - updated Vault version from `1.11.3` to `1.11.4`

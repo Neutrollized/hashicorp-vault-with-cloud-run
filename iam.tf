@@ -20,7 +20,9 @@ resource "google_secret_manager_secret_iam_binding" "secret_iam_binding" {
   ]
 }
 
-resource "google_kms_crypto_key_iam_binding" "auto_unseal_iam_binding" {
+# https://developer.hashicorp.com/vault/docs/configuration/seal/gcpckms#authentication-permissions
+# this provides the cloudkms.cryptoKeyVersions.useToEncrypt and .useToDecrypt perms
+resource "google_kms_crypto_key_iam_binding" "auto_unseal_iam_binding_encdec" {
   crypto_key_id = google_kms_crypto_key.auto_unseal.id
   role          = "roles/cloudkms.cryptoKeyEncrypterDecrypter"
   members = [
@@ -28,6 +30,14 @@ resource "google_kms_crypto_key_iam_binding" "auto_unseal_iam_binding" {
   ]
 }
 
+# this provides the cloudkms.cryptoKeys.get perm
+resource "google_kms_crypto_key_iam_binding" "auto_unseal_iam_binding_viewer" {
+  crypto_key_id = google_kms_crypto_key.auto_unseal.id
+  role          = "roles/cloudkms.viewer"
+  members = [
+    "serviceAccount:${google_service_account.vault_sa.email}",
+  ]
+}
 
 # add Cloud Run Admin and Service Account User roles to Cloud Build service account
 resource "google_project_iam_member" "iam_run_admin" {

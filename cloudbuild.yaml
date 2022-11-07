@@ -1,5 +1,9 @@
 ---
 steps:
+# Lint Dockerfile
+- name: 'ghcr.io/hadolint/hadolint'
+  entrypoint: '/bin/hadolint'
+  args: ['cloud-run/Dockerfile']
 # Build container image
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA', '-f', 'cloud-run/Dockerfile', '.']
