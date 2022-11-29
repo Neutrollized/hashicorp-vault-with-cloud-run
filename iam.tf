@@ -39,7 +39,10 @@ resource "google_kms_crypto_key_iam_binding" "auto_unseal_iam_binding_viewer" {
   ]
 }
 
-# add Cloud Run Admin and Service Account User roles to Cloud Build service account
+
+#-------------------------------
+# Cloud Build service account
+#-------------------------------
 resource "google_project_iam_member" "iam_run_admin" {
   project = var.project_id
   role    = "roles/run.admin"

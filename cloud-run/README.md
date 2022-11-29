@@ -6,11 +6,11 @@ Based on my Vault setup on my home Raspberry Pi, I know I don't require that muc
 
 #### 0 - Building the Image
 ```
-docker build -t gcr.io/${PROJECT_ID}/vault-server:1.11.2 .
-docker push gcr.io/${PROJECT_ID}/vault-server:1.11.2
+docker build -t ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${GAR_REPO_NAME}/vault-server:1.12.1 .
+docker push ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:1.12.1
 ```
 
-**NOTE**: steps 1-3 below is a more secure way to initialize your Vault server but entirely optional and only applies if you're not using the  h You can go straight to step 3 for an easier initialize method
+**NOTE**: steps 1-3 below is a more secure way to initialize your Vault server but entirely optional.  You can go straight to step 3 for an easier initialize method
 
 
 #### 1 - Initial Deploy
@@ -21,7 +21,7 @@ gcloud beta run deploy vault-server \
   --no-allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
-  --image gcr.io/${PROJECT_ID}/vault-server:1.11.2 \
+  --image ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:1.12.1 \
   --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \
@@ -77,7 +77,7 @@ gcloud beta run deploy myvault \
   --allow-unauthenticated \
   --concurrency 20 \
   --cpu 1 \
-  --image gcr.io/${PROJECT_ID}/vault-server:1.11.2 \
+  --image ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:1.12.1 \
   --memory '512M' \
   --min-instances 1 \
   --max-instances 1 \

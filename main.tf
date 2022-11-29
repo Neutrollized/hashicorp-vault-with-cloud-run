@@ -6,10 +6,21 @@ resource "random_id" "name_suffix" {
   byte_length = 4
 }
 
+
+#---------------------------
+# Artifact Registry
+#---------------------------
+resource "google_artifact_registry_repository" "vault_gar" {
+  location      = var.region
+  repository_id = var.gar_repo_name
+  description   = "Docker GAR - Terraform managed"
+  format        = "DOCKER"
+}
+
+
 #--------------------
 # GCS
 #--------------------
-
 resource "google_storage_bucket" "vault_backend" {
   name          = "${var.bucket_name}-${random_id.name_suffix.hex}"
   storage_class = var.storage_class
@@ -22,7 +33,6 @@ resource "google_storage_bucket" "vault_backend" {
 #--------------------
 # Cloud KMS
 #--------------------
-
 resource "google_kms_key_ring" "vault" {
   name     = "vault-server-${random_id.name_suffix.hex}"
   location = "global"
@@ -38,7 +48,6 @@ resource "google_kms_crypto_key" "auto_unseal" {
 #---------------------------
 # Secret Manager
 #---------------------------
-
 resource "google_secret_manager_secret" "vault_secret" {
   secret_id = "vault-server-config"
 
@@ -56,10 +65,9 @@ resource "google_secret_manager_secret_version" "vault_server_config" {
 #---------------------------
 # Cloud Build
 #---------------------------
-
 resource "google_cloudbuild_trigger" "docker_build_trigger" {
   name        = "hashicorp-vault-cloudrun-build-and-deploy"
-  description = "Docker Build and Deploy"
+  description = "Docker Build and Deploy - Terraform managed"
 
   filename = "cloudbuild.yaml"
 
@@ -72,6 +80,8 @@ resource "google_cloudbuild_trigger" "docker_build_trigger" {
   }
 
   substitutions = {
+    _GAR_REGION            = var.region
+    _GAR_REPO_NAME         = var.gar_repo_name
     _GCS_BUCKET_NAME       = google_storage_bucket.vault_backend.name
     _KMS_KEY_RING          = google_kms_key_ring.vault.name
     _REGION                = var.cloudrun_region

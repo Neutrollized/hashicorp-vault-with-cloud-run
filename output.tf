@@ -1,3 +1,7 @@
+output "artifact_registry_id" {
+  value = google_artifact_registry_repository.vault_gar.id
+}
+
 output "bucket_name" {
   value = google_storage_bucket.vault_backend.name
 }

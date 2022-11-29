@@ -1,18 +1,17 @@
 ---
 steps:
-# Lint Dockerfile
-- name: 'ghcr.io/hadolint/hadolint'
+- id: 'Lint Dockerfile'
+  name: 'ghcr.io/hadolint/hadolint'
   entrypoint: '/bin/hadolint'
   args: ['cloud-run/Dockerfile']
-# Build container image
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA', '-f', 'cloud-run/Dockerfile', '.']
-# Push container image to Container Registry
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA']
-# Deploy container image to Cloud Run
-# https://cloud.google.com/build/docs/deploying-builds/deploy-cloud-run
-- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+- id: 'Build container image'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}', '-f', 'cloud-run/Dockerfile', '.']
+- id: 'Push container image to GAR'
+  name: 'gcr.io/cloud-builders/docker'
+  args: ['push', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}']
+- id: 'Deploy to Cloud Run'
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   entrypoint: gcloud
   args:
   - 'beta'
@@ -29,7 +28,7 @@ steps:
   - '--memory'
   - '512M'
   - '--image'
-  - 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA'
+  - '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
   - '--region'
   - '${_REGION}'
   - '--min-instances'
@@ -43,10 +42,11 @@ steps:
   - '--service-account'
   - '${_SERVICE_ACCOUNT_EMAIL}'
   - '--set-env-vars'
-  - 'GOOGLE_PROJECT=$PROJECT_ID,GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME},VAULT_GCPCKMS_SEAL_KEY_RING=${_KMS_KEY_RING}'
+  - 'GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME},VAULT_GCPCKMS_SEAL_KEY_RING=${_KMS_KEY_RING}'
   - '--set-secrets'
   - '/etc/vault/config.hcl=vault-server-config:latest'
   - '--timeout'
   - '300'
+serviceAccount: '${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com'
 images:
-- 'gcr.io/$PROJECT_ID/vault-server:$COMMIT_SHA'
+- '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
