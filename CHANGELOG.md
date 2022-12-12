@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2012-12-12
+### Added
+- Image security scan using [`trivy`](https://aquasecurity.github.io/trivy/) as a pipeline step (will exit with exit code 1 if HIGH or CRITICAL vulnerability detected)
+### Changed
+- Updated Vault version from `1.12.1` to `1.12.2`
+
 ## [0.4.0] - 2022-11-29
 ### Added
 - Google Artifact Registry 
