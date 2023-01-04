@@ -89,3 +89,5 @@ vault audit enable file file_path=stdout
 Ensure Cloud Build Service Account `[PROJECT_NUMBER]@cloudbuild.gserviceaccount.com` needs to have the following additional roles:
 - Cloud Run Admin
 - Service Account User
+
+Make sure image is passing its efficiency and security scan steps.  While you can tweak the efficiency scan rule thresholds set in [.dive-ci](./dive-ci), I don't recommend bypassing the security scan as it is set to report only on HIGH or CRITICAL severities.

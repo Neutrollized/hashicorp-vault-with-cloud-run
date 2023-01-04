@@ -7,6 +7,9 @@ steps:
 - id: 'Build container image'
   name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}', '-f', 'cloud-run/Dockerfile', '.']
+- id: 'Image efficiency scan'
+  name: 'quay.io/wagoodman/dive'
+  args: ['--ci', '${_GAR_REGION}-docker.pkg.dev/$PROJECT_ID/${_GAR_REPO_NAME}/vault-server:$COMMIT_SHA']
 - id: 'Image security scan'
   name: 'aquasec/trivy:latest'
   args: ['image', '--severity', 'HIGH,CRITICAL', '--exit-code', '1', '${_GAR_REGION}-docker.pkg.dev/$PROJECT_ID/${_GAR_REPO_NAME}/vault-server:$COMMIT_SHA']
@@ -29,7 +32,7 @@ steps:
   - '--cpu'
   - '1'
   - '--memory'
-  - '512M'
+  - '512Mi'
   - '--image'
   - '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
   - '--region'

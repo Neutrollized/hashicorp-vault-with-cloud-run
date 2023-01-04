@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2023-01-04
+### Added
+- Image efficiency scan using [`dive`](https://github.com/wagoodman/dive) as a pipeline step (will exit with exit code 1 if any of the 3 rules produce a FAIL status)
+- [.dive-ci](./dive-ci) rules file used by `dive --ci`
+### Changed
+- Memory size units changed from `M` to `Mi`
+
+
 ## [0.5.0] - 2012-12-12
 ### Added
 - Image security scan using [`trivy`](https://aquasecurity.github.io/trivy/) as a pipeline step (will exit with exit code 1 if HIGH or CRITICAL vulnerability detected)
