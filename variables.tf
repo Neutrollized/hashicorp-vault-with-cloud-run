@@ -88,6 +88,12 @@ variable "cloudrun_region" {
   default     = "us-east4"
 }
 
+variable "cloudrun_exec_env" {
+  description = "Set execution environment for Cloud Run.  Options are: 'gen1', 'gen2'"
+  type        = string
+  default     = "gen2"
+}
+
 variable "trigger_approval_required" {
   description = "Require approval before build executes"
   type        = bool

@@ -10,7 +10,7 @@
 
 [Cloud Build](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloudbuild_trigger)
 
-Based on Kelsey Hightower's [Serverless Vault with Cloud Run](https://github.com/kelseyhightower/serverless-vault-with-cloud-run) repo, this TF blueprint will set up your Artifact Registry, GCS, Secrets Manager, Cloud KMS (for auto-unseal) and a Cloud Build trigger that will build and deploy Vault onto Cloud Run.  
+Inspired by Kelsey Hightower's [Serverless Vault with Cloud Run](https://github.com/kelseyhightower/serverless-vault-with-cloud-run) repo, this TF blueprint will set up your Artifact Registry, GCS, Secrets Manager, Cloud KMS (for auto-unseal) and a Cloud Build trigger that will build and deploy Vault onto Cloud Run.  
 
 **DISCLAIMER**: This setup is more for a dev/test setup rather than prod as it will be publicly accessible as Cloud Run is mean to run container images that runs an HTTP server and unfortunately you can't apply any firewall rules to it unless you set up an external HTTP(S) balncer with serverless NEGs backends, etc.  If you are trying to setup a production Vault, this is probably not the best way to go about it.  Also, if you're going to use Vault for prod, please build something a bit more "proper" and following the [production hardening](https://learn.hashicorp.com/tutorials/vault/production-hardening) guide.
 
@@ -18,7 +18,7 @@ Based on Kelsey Hightower's [Serverless Vault with Cloud Run](https://github.com
 ## How to Use
 #### 0 - Enable Required APIs
 You can do this via console or... 
-```
+```console
 gcloud services enable --async \
   artifactregistry.googleapis.com \
   run.googleapis.com \
@@ -41,7 +41,7 @@ Error 400: Repository mapping does not exist. Please visit https://console.cloud
 
 #### 2 - Plan & Apply Terraform code
 Before you do so, please look over the variables and create your `terraform.tfvars` (you can base it on the [template](./terraform.tfvars.template) I provided).
-```
+```console
 terraform plan -out=myvault.plan
 terraform apply myvault.plan
 ```
@@ -54,21 +54,21 @@ Once the deploy is done, you can commit and push the changes which should trigge
 #### 3 - Initialize Vault
 Obtain the Cloud Run deployment URL and initialize Vault
 
-```
+```console
 VAULT_SERVICE_URL=$(gcloud run services describe myvault \
   --platform managed \
   --region ${REGION} \
   --format 'value(status.url)')
 ```
 
-```
+```console
 curl -s -X PUT ${VAULT_SERVICE_URL}/v1/sys/init --data @cloud-run/init.json
 ```
 
 
 #### 4 - Create Domain Mapping (optional)
 I'm not 100% sure, but I don't think the service name needs to match your URL subdomain name, but I do it so that it's consistent:
-```
+```console
 gcloud beta run domain-mappings create \
   --service myvault \
   --domain myvault.example.com
