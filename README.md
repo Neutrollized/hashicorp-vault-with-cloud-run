@@ -62,7 +62,7 @@ VAULT_SERVICE_URL=$(gcloud run services describe myvault \
 ```
 
 ```console
-curl -s -X PUT ${VAULT_SERVICE_URL}/v1/sys/init --data @cloud-run/init.json
+curl -s -X POST ${VAULT_SERVICE_URL}/v1/sys/init --data @cloud-run/init.json
 ```
 
 

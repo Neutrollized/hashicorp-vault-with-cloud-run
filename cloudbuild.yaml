@@ -12,7 +12,7 @@ steps:
   args: ['--ci', '${_GAR_REGION}-docker.pkg.dev/$PROJECT_ID/${_GAR_REPO_NAME}/vault-server:$COMMIT_SHA']
 - id: 'Image security scan'
   name: 'aquasec/trivy:latest'
-  args: ['image', '--severity', 'HIGH,CRITICAL', '--exit-code', '1', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:$COMMIT_SHA']
+  args: ['image', '--severity', 'HIGH,CRITICAL', '--exit-code', '1', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}']
 - id: 'Push container image to GAR'
   name: 'gcr.io/cloud-builders/docker'
   args: ['push', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}']
