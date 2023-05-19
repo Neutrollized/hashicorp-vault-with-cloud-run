@@ -37,6 +37,8 @@ steps:
   - '512Mi'
   - '--image'
   - '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
+#  - '--binary-authorization'
+#  - 'default'
   - '--region'
   - '${_REGION}'
   - '--min-instances'

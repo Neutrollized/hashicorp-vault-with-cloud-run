@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2023-05-19
+### Changed
+- Updated `cloudbuild.yaml`, but left Binary Authorization commented out (see Known Issues section in README for more details)
+- Updated Vault version from `1.13.1` to `1.13.2`
+
 ## [0.8.0] - 2023-03-31
 ### Fixed
-- Updated `cloud-run/init.json` to remove `secret_shares` and `secret_threshold` as explained [here](https://github.com/hashicorp/vault/issues/17551#issuecomment-1340027559)
+- Updated `cloud-run/init.json` to remove `secret_shares` and `secret_threshold` as part of [GH-16379](https://github.com/hashicorp/vault/pull/16379) applied to v1.12.0
 ### Changed
 - Updated Vault version from `1.12.3` to `1.13.1`
 
