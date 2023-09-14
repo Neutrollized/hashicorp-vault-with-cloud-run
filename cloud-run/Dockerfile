@@ -1,6 +1,6 @@
 FROM debian:buster as builder
 
-ENV VAULT_VERSION=1.13.2
+ENV VAULT_VERSION=1.14.3
 
 ARG DEBIAN_FRONTEND=noninteractive
 
