@@ -39,7 +39,7 @@ Error 400: Repository mapping does not exist. Please visit https://console.cloud
 ```
 
 
-#### 2 - Plan & Apply Terraform code
+#### 3 - Plan & Apply Terraform code
 Before you do so, please look over the variables and create your `terraform.tfvars` (you can base it on the [template](./terraform.tfvars.template) I provided).
 ```console
 terraform plan -out=myvault.plan
@@ -51,7 +51,7 @@ Once the deploy is done, you can commit and push the changes which should trigge
 **NOTE:** you will need to set an [environment variable](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/provider_reference#full-reference) to provide credentials to Terraform in order to deploy these blueprints (typically one of `GOOGLE_CREDENTIALS`, `GOOGLE_APPLICATION_CREDENTIALS` or `GOOGLE_OAUTH_ACCESS_TOKEN`)
 
 
-#### 3 - Initialize Vault
+#### 4 - Initialize Vault
 Obtain the Cloud Run deployment URL and initialize Vault
 
 ```console
@@ -66,7 +66,7 @@ curl -s -X POST ${VAULT_SERVICE_URL}/v1/sys/init --data @cloud-run/init.json
 ```
 
 
-#### 4 - Create Domain Mapping (optional)
+#### 5 - Create Domain Mapping (optional)
 I'm not 100% sure, but I don't think the service name needs to match your URL subdomain name, but I do it so that it's consistent:
 ```console
 gcloud beta run domain-mappings create \
