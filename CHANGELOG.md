@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2024-02-05
+### Changed
+- Added `--cpu-boost` for [faster cold starts](https://cloud.google.com/blog/products/serverless/announcing-startup-cpu-boost-for-cloud-run--cloud-functions)
+- Updated Vault version from `1.14.7` to `1.15.5`
+
 ## [0.8.3] - 2023-12-01
 ### Changed
 - Updated Vault version from `1.14.3` to `1.14.7`
