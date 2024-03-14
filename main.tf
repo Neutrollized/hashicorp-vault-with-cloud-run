@@ -52,7 +52,7 @@ resource "google_secret_manager_secret" "vault_secret" {
   secret_id = "vault-server-config"
 
   replication {
-    automatic = true
+    auto {}
   }
 }
 

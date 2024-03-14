@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [0.9.1] - 2024-03-14
+### Changed
+- `google_secret_manager_secret`'s replication argument, `automatic` is being deprecated for `auto` instead
+- Updated Vault version from `1.15.5` to `1.15.6`
+
 ## [0.9.0] - 2024-02-05
 ### Changed
 - Added `--cpu-boost` for [faster cold starts](https://cloud.google.com/blog/products/serverless/announcing-startup-cpu-boost-for-cloud-run--cloud-functions)
