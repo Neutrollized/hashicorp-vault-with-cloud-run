@@ -36,12 +36,22 @@ variable "storage_class" {
   description = "Storage class, options are: STANDARD, MULTI_REGIONAL, REGIONAL.  There are other options, but you shouldn't be using those for Vault backend."
   type        = string
   default     = "MULTI_REGIONAL"
+
+  validation {
+    condition     = contains(["STANDARD", "MULTI_REGIONAL", "REGIONAL"], var.storage_class)
+    error_message = "Accepted values are STANDARD, MULTI_REGIONAL or REGIONAL"
+  }
 }
 
 variable "location" {
   description = "Multi-region name, options are: ASIA, EU, US"
   type        = string
   default     = "US"
+
+  validation {
+    condition     = contains(["ASIA", "EU", "US"], var.location)
+    error_message = "Accepted values are ASIA, EU or US"
+  }
 }
 
 variable "force_destroy" {
@@ -80,6 +90,11 @@ variable "cloudrun_ingress" {
   description = "Set ingress traffic sourcess allowed to call the service.  Options are: 'all', 'internal', 'internal-and-cloud-load-balancing'"
   type        = string
   default     = "all"
+
+  validation {
+    condition     = contains(["all", "internal", "internal-and-cloud-load-balancing"], var.cloudrun_ingress)
+    error_message = "Accepted values are all, internal or internal-and-cloud-load-balancing"
+  }
 }
 
 variable "cloudrun_region" {
@@ -92,6 +107,11 @@ variable "cloudrun_exec_env" {
   description = "Set execution environment for Cloud Run.  Options are: 'gen1', 'gen2'"
   type        = string
   default     = "gen2"
+
+  validation {
+    condition     = contains(["gen1", "gen2"], var.cloudrun_exec_env)
+    error_message = "Accepted values are gen1 or gen2"
+  }
 }
 
 variable "trigger_approval_required" {

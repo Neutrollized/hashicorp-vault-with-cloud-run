@@ -52,12 +52,14 @@ steps:
   - '8200'
   - '--service-account'
   - '${_SERVICE_ACCOUNT_EMAIL}'
-  - '--set-env-vars'
-  - 'GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME},VAULT_GCPCKMS_SEAL_KEY_RING=${_KMS_KEY_RING}'
   - '--set-secrets'
   - '/etc/vault/config.hcl=vault-server-config:latest'
   - '--timeout'
   - '300'
+  env:
+  - 'GOOGLE_PROJECT=${PROJECT_ID}'
+  - 'GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME}'
+  - 'VAULT_GCPCKMS_SEAL_KEY_RING=${_KMS_KEY_RING}'
 serviceAccount: '${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com'
 images:
 - '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
