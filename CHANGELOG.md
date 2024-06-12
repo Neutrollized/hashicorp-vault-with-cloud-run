@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [0.9.3] - 2024-06-12
 ### Changed
-- Updated Vault version from `1.16.1` to `1.16.3`
+- Updated Vault version from `1.16.1` to `1.17.0`
 
 ## [0.9.2] - 2024-04-06
 ### Added
