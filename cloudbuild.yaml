@@ -17,7 +17,7 @@ steps:
   name: 'gcr.io/cloud-builders/docker'
   args: ['push', '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}']
 - id: 'Deploy to Cloud Run'
-  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
   entrypoint: gcloud
   args:
   - 'beta'
@@ -38,8 +38,6 @@ steps:
   - '--cpu-boost'
   - '--image'
   - '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
-#  - '--binary-authorization'
-#  - 'default'
   - '--region'
   - '${_REGION}'
   - '--min-instances'
@@ -52,14 +50,15 @@ steps:
   - '8200'
   - '--service-account'
   - '${_SERVICE_ACCOUNT_EMAIL}'
+  - '--set-env-vars'
+  - 'GOOGLE_PROJECT=${PROJECT_ID},GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME},VAULT_GCPCKMS_SEAL_KEY_RING=${_KMS_KEY_RING}'
   - '--set-secrets'
   - '/etc/vault/config.hcl=vault-server-config:latest'
   - '--timeout'
   - '300'
-  env:
-  - 'GOOGLE_PROJECT=${PROJECT_ID}'
-  - 'GOOGLE_STORAGE_BUCKET=${_GCS_BUCKET_NAME}'
-  - 'VAULT_GCPCKMS_SEAL_KEY_RING=${_KMS_KEY_RING}'
-serviceAccount: '${PROJECT_NUMBER}@cloudbuild.gserviceaccount.com'
+# Cloud Build service account
+serviceAccount: '${PROJECT_NUMBER}-compute@developer.gserviceaccount.com'
 images:
 - '${_GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:${COMMIT_SHA}'
+options:
+  defaultLogsBucketBehavior: REGIONAL_USER_OWNED_BUCKET

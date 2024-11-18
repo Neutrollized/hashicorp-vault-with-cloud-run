@@ -68,8 +68,9 @@ resource "google_secret_manager_secret_version" "vault_server_config" {
 resource "google_cloudbuild_trigger" "docker_build_trigger" {
   name        = "hashicorp-vault-cloudrun-build-and-deploy"
   description = "HashiCorp Vault Build and Deploy - Terraform managed"
+  filename    = "cloudbuild.yaml"
 
-  filename = "cloudbuild.yaml"
+  service_account = "${data.google_project.project.id}/serviceAccounts/${data.google_project.project.number}-compute@developer.gserviceaccount.com"
 
   github {
     owner = var.github_repo_owner

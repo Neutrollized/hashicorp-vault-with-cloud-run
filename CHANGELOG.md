@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.10.0] - 2024-11-18
+### Added
+- `options.defaultLogsBucketBehavior` to [store build logs in user-owned, regionalized bucket](https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs)
+### Changed
+- Updated Vault version from `1.17.6` to `1.18.1`
+- Using Compute Engine default service account as Cloud Build service account as per [changes](https://cloud.google.com/build/docs/cloud-build-service-account-updates)
+- Updated IAM to include new roles required for logging and building using new service account
+- Updated **google** and **google-beta** providers from `~> 4.0` to `~> 6.0`
+### Fixed
+- The `env` field within the Cloud Run deploy step was not being honored, and hence environment variables that are to be passed to the container will be done via `--set-env-vars` instead (part of `gcloud run deploy` option)
+
 ## [0.9.4] - 2024-09-26
 ### Changed
 - Updated Vault version from `1.17.0` to `1.17.6`
