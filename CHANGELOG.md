@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.11.0] - 2025-02-24
+### Added
+- `uniform_bucket_level_access = true` and `public_access_prevention = "enforced"` for Vault GCS backend to align with GCS bucket config best practices
+### Changed
+- Using the [dir](https://cloud.google.com/build/docs/build-config-file-schema#dir) field to pass the path of the Dockerfile
+- Updated Vault version from `1.18.1` to `1.18.5`
+
 ## [0.10.0] - 2024-11-18
 ### Added
 - `options.defaultLogsBucketBehavior` to [store build logs in user-owned, regionalized bucket](https://cloud.google.com/build/docs/securing-builds/store-manage-build-logs)

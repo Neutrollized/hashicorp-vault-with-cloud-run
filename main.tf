@@ -26,6 +26,9 @@ resource "google_storage_bucket" "vault_backend" {
   storage_class = var.storage_class
   location      = var.location
 
+  uniform_bucket_level_access = true
+  public_access_prevention    = "enforced"
+
   force_destroy = var.force_destroy
 }
 
