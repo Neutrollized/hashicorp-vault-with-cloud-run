@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [0.11.1] - 2025-06-25
 ### Changed
 - Updated Vault version from `1.18.5` to `1.19.5`
+- Reordered Cloud Build step to perform security scan before efficiency scan
+- Security scan only flagging for **CRITICAL** severity instead of **HIGH,CRITICAL**
 
 ## [0.11.0] - 2025-02-24
 ### Added
