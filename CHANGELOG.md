@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.11.1] - 2025-06-25
+### Changed
+- Updated Vault version from `1.18.5` to `1.19.5`
+
 ## [0.11.0] - 2025-02-24
 ### Added
 - `uniform_bucket_level_access = true` and `public_access_prevention = "enforced"` for Vault GCS backend to align with GCS bucket config best practices
