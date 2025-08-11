@@ -1,4 +1,4 @@
-FROM debian:buster as builder
+FROM debian:bookworm as builder
 
 ENV VAULT_VERSION=1.20.2
 
