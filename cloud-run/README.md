@@ -5,7 +5,7 @@ Based on my Vault setup on my home Raspberry Pi, I know I don't require that muc
 
 
 #### 0 - Building the Image
-```console
+```
 docker build -t ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${GAR_REPO_NAME}/vault-server:1.12.3 .
 docker push ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-server:1.12.3
 ```
@@ -16,7 +16,7 @@ docker push ${GAR_REGION}-docker.pkg.dev/${PROJECT_ID}/${_GAR_REPO_NAME}/vault-s
 #### 1 - Initial Deploy
 Deploy privately first so you can authenticate with your GCP account and setup the Vault instance:
 
-```console
+```
 gcloud beta run deploy vault-server \
   --no-allow-unauthenticated \
   --concurrency 20 \
@@ -38,7 +38,7 @@ gcloud beta run deploy vault-server \
 ### 2 - Connect To & Initialize Vault
 You need to give the current logged in GCP user access so that you can initialize the Vault server
 
-```console
+```
 gcloud run services add-iam-policy-binding vault-server \
   --member="user:${CURRENT_USER_EMAIL}" \
   --role='roles/run.invoker' \
@@ -47,7 +47,7 @@ gcloud run services add-iam-policy-binding vault-server \
 ```
 
 - the last line of your Cloud Run deploy output should tell you what your Service URL is, but if you need it again:
-```console
+```
 VAULT_SERVICE_URL=$(gcloud run services describe vault-server \
   --platform managed \
   --region ${REGION} \
@@ -55,14 +55,14 @@ VAULT_SERVICE_URL=$(gcloud run services describe vault-server \
 ```
 
 - this should tell you that your Vault us up, but is not initialized:
-```console
+```sh
 curl -s -X GET \
   ${VAULT_SERVICE_URL}/v1/sys/seal-status \
   -H "Authorization: Bearer $(gcloud auth print-identity-token)"
 ```
 
 - initialize it (update `init.json` settings as it pertains to you)
-```console
+```sh
 curl -s -X PUT \
   ${VAULT_SERVICE_URL}/v1/sys/init \
   -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
@@ -72,7 +72,7 @@ curl -s -X PUT \
 
 ### 3 - Finalize & Make Public
 One down side of Cloud Run is that it's meant more for (public) applications and not something that should be more internal/restricted.  You can require authentication to access the service with the `--no-allow-unauthenticated` flag like you did in the first step, but depending on what you actually want to use this Vault for, it might be a lot more hassle than it is worth.
-```console
+```
 gcloud beta run deploy myvault \
   --allow-unauthenticated \
   --concurrency 20 \
@@ -98,7 +98,7 @@ If you want to map your service to a custom domain (I'm going to use *myvault.ex
 Also, beware that there are currently some [limitations](https://cloud.google.com/run/docs/mapping-custom-domains#limitations) to Cloud Run domain mappings.  This is only availabile in certain regions.  For example, I can't deploy it in Montreal (`northamerica-northeast1`), so I'll have to choose a different region like `us-central1` or `us-east1`, etc.
 
 I'm not 100% sure, but I don't think the service name needs to match your URL subdomain name, but I do it so that it's consistent:
-```console
+```
 gcloud beta run domain-mappings create \
   --service myvault \
   --domain myvault.example.com

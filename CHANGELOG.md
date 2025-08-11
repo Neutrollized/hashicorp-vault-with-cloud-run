@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.11.2] - 2025-08-11
+### Changed
+- Updated Vault version from `1.19.5` to `1.20.2` ([security/vulnerability patch](https://discuss.hashicorp.com/t/hcsec-2025-22-multiple-vulnerabilities-impacting-hashicorp-vault-and-vault-enterprise/76096))
+
 ## [0.11.1] - 2025-06-25
 ### Changed
 - Updated Vault version from `1.18.5` to `1.19.5`
