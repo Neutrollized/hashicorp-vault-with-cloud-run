@@ -1,6 +1,6 @@
 FROM debian:bookworm as builder
 
-ENV VAULT_VERSION=1.20.2
+ENV VAULT_VERSION=1.21.4
 
 ARG DEBIAN_FRONTEND=noninteractive
 

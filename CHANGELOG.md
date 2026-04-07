@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.12.1] - 2026-04-07
+### Changed
+- Commented out Trivy scan step from Cloud Build (given the recent Trivy supply chain attack)
+- Updated Vault version from `1.20.2` to `1.21.4`
+
 ## [0.12.0] - 2025-08-11
 ### Changed
 - Updated builder image from `debian:buster` to `debian:bookworm`
