@@ -7,3 +7,5 @@
 cloud-run/*.md
 cloud-run/init.json
 cloud-run/*.hcl
+
+example/

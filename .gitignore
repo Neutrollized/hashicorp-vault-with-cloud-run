@@ -1,3 +1,7 @@
+example/config/agent.hcl
+example/approle/role_id.txt
+example/approle/secret_id.txt
+
 # Local .terraform directories & files
 **/.terraform/*
 .terraform.lock.hcl

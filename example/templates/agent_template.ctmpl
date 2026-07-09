@@ -1,0 +1,4 @@
+{{ with secret "mykv2/sandbox/mysecret" }}
+USERNAME={{ .Data.data.username }}
+PASSWORD={{ .Data.data.password }}
+{{ end }}

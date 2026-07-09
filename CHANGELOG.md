@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [0.12.2] - 2026-07-09
+### Added
+- `examples/` with AppRole example using Docker compose 
+
 ## [0.12.1] - 2026-04-07
 ### Changed
 - Commented out Trivy scan step from Cloud Build (given the recent Trivy supply chain attack)

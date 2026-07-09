@@ -1,0 +1,39 @@
+services:
+  vault-agent:
+    image: hashicorp/vault:1.21
+    container_name: vault-agent
+    command: ["vault", "agent", "-config=/vault/config/agent.hcl"]
+    volumes:
+      # Config: read-only bind mount from local
+      - ./config/agent.hcl:/vault/config/agent.hcl:ro
+      # AppRole credentials: read-only bind mount from local
+      - ./approle/role_id.txt:/vault/creds/role_id.txt:ro
+      - ./approle/secret_id.txt:/vault/creds/secret_id.txt:ro
+      # mounting dir as there can be multiple template sources
+      - ./templates:/vault/templates:ro
+      - agent_token:/vault/token            # writable - sink
+      - shared_secrets:/vault/secrets       # writable - agent renders here
+
+    tmpfs:
+      # Memory-only filesystem for anything the agent writes (token sink, cache, templates)
+      - /tmp:rw,size=16m,mode=1777
+
+    read_only: true   # root filesystem is read-only; only tmpfs mounts above are writable
+
+    environment:
+      - VAULT_SKIP_VERIFY=1
+
+    ports:
+      - "8100:8100"
+
+    restart: unless-stopped
+
+volumes:
+  shared_secrets:   # shared_secrets for another container to use the secrets
+    driver_opts:
+      type: "tmpfs"
+      device: "tmpfs"
+  agent_token:
+    driver_opts:
+      type: "tmpfs"
+      device: "tmpfs"

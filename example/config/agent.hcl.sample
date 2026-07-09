@@ -1,0 +1,47 @@
+pid_file = "/tmp/pidfile"
+
+vault {
+  address = "[VAULT_ADDR]"
+  retry {
+    num_retries = 3
+  }
+}
+
+auto_auth {
+  method {
+    type = "approle"
+
+    config = {
+      role_id_file_path = "/vault/creds/role_id.txt"
+      secret_id_file_path = "/vault/creds/secret_id.txt"
+      remove_secret_id_file_after_reading = false
+    }
+  }
+
+  sink {
+    type = "file"
+    mount_path = "approle"
+
+    config = {
+     path = "/vault/token/vault-token-via-agent"
+      mode = 0640
+    }
+  }
+}
+
+
+api_proxy {
+  use_auto_auth_token = "force"
+  enforce_consistency = "always"
+}
+
+listener "tcp" {
+  address     = "0.0.0.0:8100"   # NOT 127.0.0.1 — must bind all interfaces
+  tls_disable = true
+}
+
+template {
+  source = "/vault/templates/agent_template.ctmpl"
+  destination = "/vault/secrets/mysecret.env"
+  error_on_missing_key = true
+}
